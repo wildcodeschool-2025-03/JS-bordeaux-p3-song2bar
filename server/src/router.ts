@@ -10,7 +10,9 @@ const router = express.Router();
 
 router.get("/api/events", eventActions.browse);
 router.get("/api/events/:id", eventActions.read);
+
 router.get("/api/groups/:id", groupActions.read);
+
 router.get("/api/bars/:id", barActions.read);
 
 router.post("/api/users", authActions.hashPassword, userActions.add);

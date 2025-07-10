@@ -1,4 +1,5 @@
 import type { RequestHandler } from "express";
+import { StatusCodes } from "http-status-codes";
 import eventRepository from "./eventRepository";
 
 const browse: RequestHandler = async (req, res, next) => {
@@ -17,7 +18,7 @@ const read: RequestHandler = async (req, res, next) => {
     const event = await eventRepository.find(eventId);
 
     if (!event) {
-      res.status(404).json({ error: "Event not found" });
+      res.status(StatusCodes.NOT_FOUND).json({ error: "Event not found" });
     } else {
       res.json(event);
     }

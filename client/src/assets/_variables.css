@@ -1,14 +1,8 @@
 @font-face {
-  font-family: "Fredoka_light";
-  src: url("./fonts/Fredoka-Light.ttf");
   font-family: "Fredoka";
-  src: url("../assets/font/Fredoka-Variable.ttf") format("truetype");
-  font-weight: normal;
+  src: url("/fonts/Fredoka-Variable.ttf") format("truetype");
+  font-weight: 100 400;
   font-style: normal;
-  font-family: "Fredoka_SemiBold";
-  src: url("./fonts/Fredoka-SemiBold.ttf");
-  font-family: "Fredoka_regular";
-  src: url("./fonts/Fredoka-Regular.ttf");
 }
 
 :root {
@@ -20,16 +14,12 @@
   --text-color: white;
 }
 
-.bold {
-  font-weight: bolder;
-}
-
 body {
-  font-family: "Fredoka_regular", sans-serif;
+  font-family: "Fredoka", sans-serif;
 }
 
-.white {
-  color: white;
+.underline {
+  text-decoration: underline;
 }
 
 .bold {
@@ -45,7 +35,7 @@ h2 {
 }
 
 h3 {
-  font-size: 1.5 rem;
+  font-size: 1.7 rem;
 }
 
 h4 {

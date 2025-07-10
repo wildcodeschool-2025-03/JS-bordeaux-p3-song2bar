@@ -1,9 +1,9 @@
 import { type FormEventHandler, useRef } from "react";
 import { useNavigate } from "react-router";
-import { useUser } from "../contexts/UserContext";
+import { useUser } from "../../contexts/UserContext";
 import "./Login.css";
 import { ToastContainer, toast } from "react-toastify";
-import LogoSite from "../../public/images/logo-site.png";
+import LogoSite from "/images/logo-site.png";
 
 export default function Login() {
   const emailRef = useRef<HTMLInputElement>(null);

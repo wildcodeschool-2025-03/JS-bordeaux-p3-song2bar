@@ -1,7 +1,7 @@
 import "./MusicGroup.css";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import styleIcon from "../../../public/images/music-style-icon.svg";
+import styleIcon from "/images/group_images/music-style-icon.svg";
 import type { MusicGroupInterface } from "../../types/musicGroup";
 
 function MusicGroup() {

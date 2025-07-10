@@ -51,13 +51,16 @@ function EventDetails() {
           />
           <div className="date">
             <div className="date-icon">
-              <img src="/event_icon/calendar.png" alt="calendar-icon" />
+              <img
+                src="/images/event_images/calendar.png"
+                alt="calendar-icon"
+              />
             </div>
             <p className={"date-event bold white"}>{formattedDateText}</p>
           </div>
           <div className="hour">
             <img
-              src="/event_icon/clock.png"
+              src="/images/event_images/clock.png"
               alt="clock-icon"
               className="hour-icon"
             />
@@ -70,7 +73,10 @@ function EventDetails() {
           </div>
           <div className="bar">
             <div className="localisation-icon">
-              <img src="/event_icon/localisation.png" alt="localisation-icon" />
+              <img
+                src="/images/event_images/localisation.png"
+                alt="localisation-icon"
+              />
             </div>
             <Link to={`/bar/${event.bar_id}`} className={"bar-name bold white"}>
               {event.bar_name}

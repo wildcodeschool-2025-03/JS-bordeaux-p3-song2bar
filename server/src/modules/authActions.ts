@@ -1,13 +1,14 @@
 import argon2 from "argon2";
 import type { RequestHandler } from "express";
+import { StatusCodes } from "http-status-codes";
 import userRepository from "./user/userRepository";
 
 const login: RequestHandler = async (req, res, next) => {
   try {
-    const user = await userRepository.readByEmail(req.body.email);
+    const user = await userRepository.findByEmail(req.body.email);
 
     if (user == null) {
-      res.sendStatus(422);
+      res.sendStatus(StatusCodes.UNPROCESSABLE_ENTITY);
       return;
     }
 
@@ -21,7 +22,7 @@ const login: RequestHandler = async (req, res, next) => {
 
       res.json({ userWithoutHashedPassword });
     } else {
-      res.sendStatus(422);
+      res.sendStatus(StatusCodes.UNPROCESSABLE_ENTITY);
     }
   } catch (err) {
     next(err);

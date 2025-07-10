@@ -37,14 +37,18 @@ function EventCard({ event }: EventCardProps) {
       <aside className="card-bottom">
         <div className="card-bottom-corner">
           <img
-            src="/icon/location_icon.png"
+            src="/images/event_images/location_icon.png"
             alt="Localisation"
             className="location_icon"
           />
           <p className="event-bar">{event.bar_name}</p>
         </div>
         <div className="card-bottom-corner">
-          <img src="/icon/time_icon.png" alt="Heure" className="time_icon" />
+          <img
+            src="/images/event_images/time_icon.png"
+            alt="Heure"
+            className="time_icon"
+          />
           <p className="event-time">{formatTime(event.start_at)}</p>
         </div>
       </aside>

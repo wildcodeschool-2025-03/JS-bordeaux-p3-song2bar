@@ -18,7 +18,7 @@ class UserRepository {
     return result.insertId;
   }
 
-  async readByEmail(email: string) {
+  async findByEmail(email: string) {
     const [rows] = await databaseClient.query<Rows>(
       "SELECT * FROM user WHERE email = ?",
       [email],
