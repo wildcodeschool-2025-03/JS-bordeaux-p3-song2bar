@@ -2,6 +2,7 @@ import express from "express";
 import authActions from "./modules/authActions";
 import barActions from "./modules/bar/barActions";
 import eventActions from "./modules/event/eventActions";
+// import favouriteGroupActions from "./modules/favourite/favouriteGroupActions";
 import groupActions from "./modules/groups/groupActions";
 import participateActions from "./modules/participate/participateActions";
 import userActions from "./modules/user/userActions";
@@ -20,5 +21,7 @@ router.post("/api/users", authActions.hashPassword, userActions.add);
 router.post("/api/login", authActions.login);
 
 router.post("/api/participate", participateActions.add);
+
+// router.delete("/api/favourite", favouriteGroupActions.destroy);
 
 export default router;
