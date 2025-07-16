@@ -1,15 +1,14 @@
-// import { DatabaseClient } from "../../../database/client";
-// import type { destroy } from "../favourite/favouriteGroupActions";
+import type { ResultSetHeader } from "mysql2";
+import databaseClient from "../../../database/client";
 
-// class favouriteGroupRepository {
-//   async delete(id: number) {
-//     const [result] = await databaseClient.query<result>(
-//       "delete from favourite_music_group where id =?",
-//       [id],
-//     );
-//     result.affectedRows;
-//     return;
-//   }
-// }
+class FavouriteGroupRepository {
+  async delete(userId: number, groupId: number) {
+    const [result] = await databaseClient.query<ResultSetHeader>(
+      "DELETE FROM favourite_music_group WHERE user_id = ? AND music_group_id = ?",
+      [userId, groupId],
+    );
+    return result.affectedRows;
+  }
+}
 
-// export default new favouriteGroupRepository();
+export default new FavouriteGroupRepository();
