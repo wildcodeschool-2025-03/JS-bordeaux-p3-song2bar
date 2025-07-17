@@ -21,6 +21,9 @@ body {
 .underline {
   text-decoration: underline;
 }
+.bold {
+  font-weight: bold;
+}
 
 .bold {
   font-weight: bold;
@@ -62,7 +65,7 @@ p {
 
 .card {
   width: 160px;
-  height: 220px;
+  height: 250px;
   background-color: white;
   display: flex;
   border-top-left-radius: 20px;
@@ -73,7 +76,7 @@ p {
 
 .card-image {
   clip-path: polygon(0 0, 100% 0, 100% 80%, 0% 100%);
-  min-height: 110px;
+  min-height: 125px;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
 }

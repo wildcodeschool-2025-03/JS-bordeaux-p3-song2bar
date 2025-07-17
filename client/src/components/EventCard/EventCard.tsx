@@ -7,7 +7,6 @@ type EventCardProps = {
 };
 
 function EventCard({ event }: EventCardProps) {
-  console.log(event);
   const formatTime = (value: string) => {
     return `${value.slice(0, 2)}h`;
   };

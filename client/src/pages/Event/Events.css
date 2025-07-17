@@ -23,3 +23,19 @@ body {
   justify-content: space-evenly;
   gap: 40px;
 }
+
+.filters-searchbar {
+  display: flex;
+  justify-content: center;
+}
+
+.search-bar {
+  border: none;
+  border-radius: 35px;
+  background-color: #ebd2a4;
+  font-size: 1rem;
+  width: 38rem;
+  max-width: 600px;
+  height: 4.5rem;
+  padding: 20px;
+}

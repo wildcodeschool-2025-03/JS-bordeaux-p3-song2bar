@@ -3,15 +3,15 @@ import { RouterProvider } from "react-router";
 import router from "./router";
 import "./reset.css";
 import "./assets/_variables.css";
-import { UserProvider } from "./contexts/UserContext";
+import { AuthProvider } from "./contexts/AuthContext";
 
 const rootElement = document.getElementById("root");
 
 if (rootElement) {
   createRoot(rootElement).render(
-    <UserProvider>
+    <AuthProvider>
       <RouterProvider router={router} />
-    </UserProvider>,
+    </AuthProvider>,
   );
 } else {
   console.error("L'élément #root est introuvable !");

@@ -10,7 +10,7 @@ class EventSeeder extends AbstractSeeder {
   async run() {
     const [rows] = await client.query("SELECT id, name FROM music_group");
     const groups = rows as { id: number; name: string }[];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 24; i++) {
       const randomGroup = groups[Math.floor(Math.random() * groups.length)];
       const fakeEvent = {
         date: this.faker.date.soon({ days: 30 }),

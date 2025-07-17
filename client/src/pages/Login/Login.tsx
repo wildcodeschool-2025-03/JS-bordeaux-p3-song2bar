@@ -1,17 +1,53 @@
-import { type FormEventHandler, useRef } from "react";
-import { useNavigate } from "react-router";
-import { useUser } from "../../contexts/UserContext";
+import { type FormEventHandler, useEffect, useRef } from "react";
+import { useLocation, useNavigate } from "react-router";
 import "./Login.css";
 import { ToastContainer, toast } from "react-toastify";
 import LogoSite from "/images/logo-site.png";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function Login() {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
-  const { setUser } = useUser();
+  const { setAuth } = useAuth();
+  const location = useLocation();
+  const { state } = location;
 
-  const noRefresh: FormEventHandler = async (event) => {
+  useEffect(() => {
+    if (state?.accountCreated === true) {
+      toast(
+        "Compte créé avec succès ! Vous pouvez maintenant vous connecter.",
+        {
+          type: "success",
+          position: "top-right",
+          autoClose: 4000,
+        },
+      );
+    }
+    if (state?.islogged === false) {
+      toast("Veuillez vous connecter pour participer à un évènement", {
+        type: "error",
+        position: "top-right",
+        autoClose: 4000,
+      });
+    }
+    if (state?.isloggedToFavouriteBar === false) {
+      toast("Veuillez vous connecter pour ajouter un bar à vos favoris", {
+        type: "error",
+        position: "top-right",
+        autoClose: 4000,
+      });
+    }
+    if (state?.isloggedToFavouriteEvent === false) {
+      toast("Veuillez vous connecter pour ajouter un évènement à vos favoris", {
+        type: "error",
+        position: "top-right",
+        autoClose: 4000,
+      });
+    }
+  }, [state]);
+
+  const loginUser: FormEventHandler = async (event) => {
     event.preventDefault();
 
     try {
@@ -29,10 +65,9 @@ export default function Login() {
 
       if (response.status === 200) {
         const user = await response.json();
+        setAuth(user);
 
-        setUser(user);
-
-        navigate("/");
+        navigate("/events/10");
       } else {
         console.info(response);
         toast(
@@ -54,7 +89,7 @@ export default function Login() {
       <main className="login-page">
         <section id="login-section">
           <article className="login">
-            <form onSubmit={noRefresh} id="login-form">
+            <form onSubmit={loginUser} id="login-form">
               <aside className="input-login">
                 <label className="bold" htmlFor="email">
                   Email

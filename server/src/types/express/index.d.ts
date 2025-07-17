@@ -2,13 +2,17 @@
 export type {};
 
 declare global {
+  type MyPayload = JwtPayload & { sub: string; role: string };
+  type FavouriteBar = { userId: number; barId: number };
+  type FavouriteEvent = { userId: number; eventId: number };
+  type Participate = { userId: number; eventId: number };
+
   namespace Express {
     export interface Request {
-      /* ************************************************************************* */
-      // Add your custom properties here, for example:
-      //
-      // user?: { ... }
-      /* ************************************************************************* */
+      favouriteBar: FavouriteBar;
+      favouriteEvent: FavouriteEvent;
+      participate: Participate;
+      auth: MyPayload;
     }
   }
 }

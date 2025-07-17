@@ -6,3 +6,8 @@ export interface UserType {
   email: string;
   password: string;
 }
+
+export interface AuthType {
+  user: UserType;
+  token: string;
+}

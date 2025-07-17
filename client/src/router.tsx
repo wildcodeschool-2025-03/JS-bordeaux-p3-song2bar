@@ -6,6 +6,7 @@ import Events from "./pages/Event/Events";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import MusicGroup from "./pages/MusicGroup/MusicGroup";
+
 import Register from "./pages/Register/Register";
 
 const router = createBrowserRouter([

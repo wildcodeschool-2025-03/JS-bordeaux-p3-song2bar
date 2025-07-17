@@ -56,7 +56,9 @@ function Register() {
       }
 
       if (response.status === 201) {
-        navigate("/login");
+        navigate("/login", {
+          state: { accountCreated: true },
+        });
       } else {
         toast("Création de compte invalide !", { type: "error" });
       }
