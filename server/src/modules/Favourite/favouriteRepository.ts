@@ -55,16 +55,36 @@ class FavouriteRepository {
     return result.affectedRows;
   }
 
-  async getFavouriteGroupsByUserId(userId: number) {
+  async getFavouriteGroupsByUserId(userId: number): Promise<MusicGroup[]> {
     const [rows] = await databaseClient.query<Rows>(
-      `SELECT mg.id, mg.name, mg.style, mg.image 
-       FROM favourite_music_group fmg
-       JOIN music_group mg ON fmg.music_group_id = mg.id
+      `SELECT mg.id, mg.name, mg.style, mg.image, mg.description
+       FROM music_group mg
+       INNER JOIN favourite_music_group fmg ON mg.id = fmg.music_group_id
        WHERE fmg.user_id = ?`,
       [userId],
     );
 
-    return rows;
+    return rows as MusicGroup[];
+  }
+
+  async getFavouriteEventsByUserId(userId: number): Promise<any[]> {
+    const [rows] = await databaseClient.query<Rows>(
+      `SELECT e.id, e.title, e.date, e.start_at, e.end_at, e.description, e.image,
+              e.bar_id, e.music_group_id as group_id, e.title as event_name,
+              b.name as bar_name, b.address, b.postcode, b.city, b.latitude, b.longitude,
+              mg.name as music_group_name, mg.style as music_style,
+              HOUR(e.start_at) as hour_only,
+              e.music_group_id
+       FROM event e
+       INNER JOIN favourite_event fe ON e.id = fe.event_id
+       INNER JOIN bar b ON e.bar_id = b.id
+       INNER JOIN music_group mg ON e.music_group_id = mg.id
+       WHERE fe.user_id = ?
+       ORDER BY e.date ASC`,
+      [userId],
+    );
+
+    return rows as any[];
   }
 
   async favouriteGroup(userId: number, groupId: number) {

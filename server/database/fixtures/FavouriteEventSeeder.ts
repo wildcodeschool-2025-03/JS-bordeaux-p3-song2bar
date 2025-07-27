@@ -18,6 +18,22 @@ class FavouriteEventSeeder extends AbstractSeeder {
   run() {
     const userInFavourite = new Set();
 
+    const testFavourites = [
+      { user_id: 12, event_id: this.getRef("event_1").insertId },
+      { user_id: 12, event_id: this.getRef("event_2").insertId },
+      { user_id: 12, event_id: this.getRef("event_3").insertId },
+      { user_id: 12, event_id: this.getRef("event_4").insertId },
+      { user_id: 12, event_id: this.getRef("event_5").insertId },
+    ];
+
+    for (const favourite of testFavourites) {
+      const key = `${favourite.user_id}-${favourite.event_id}`;
+      if (!userInFavourite.has(key)) {
+        userInFavourite.add(key);
+        this.insert(favourite as FavouriteData);
+      }
+    }
+
     for (let fakeEventRefId = 1; fakeEventRefId < 6; fakeEventRefId++) {
       for (let i = 0; i < 10; i++) {
         const fakeFavourite = {

@@ -21,6 +21,11 @@ router.get(
   favouriteActions.getFavouriteGroups,
 );
 
+router.get(
+  "/api/users/:userId/favourite_events",
+  favouriteActions.getFavouriteEvents,
+);
+
 router.post("/api/users", authActions.hashPassword, userActions.add);
 
 router.post("/api/login", authActions.login);

@@ -1,5 +1,6 @@
 import "./EventCard.css";
 import { useNavigate } from "react-router";
+import { useState } from "react";
 import type { EventType } from "../../types/Event";
 
 type EventCardProps = {
@@ -7,10 +8,27 @@ type EventCardProps = {
 };
 
 function EventCard({ event }: EventCardProps) {
+  const [imageError, setImageError] = useState(false);
+  
   const formatTime = (value: string) => {
     return `${value.slice(0, 2)}h`;
   };
   const navigate = useNavigate();
+
+  // Fallback image based on music style (only used when external images fail)
+  const getFallbackImage = (musicStyle: string) => {
+    const style = musicStyle.toLowerCase();
+    if (style.includes('jazz')) return '/images/event_images/jazz_band.jpg';
+    if (style.includes('rock')) return '/images/event_images/rock_band.jpg';
+    if (style.includes('electro')) return '/images/event_images/electronic_synth_pop_band.jpg';
+    if (style.includes('world')) return '/images/event_images/folk_band.jpg';
+    if (style.includes('pop')) return '/images/event_images/pop_rock_band.jpg';
+    return '/images/event_images/stand_alone_singer.jpg'; // Default
+  };
+
+  const handleImageError = () => {
+    setImageError(true);
+  };
 
   return (
     <article
@@ -25,8 +43,9 @@ function EventCard({ event }: EventCardProps) {
       <aside className="card-image">
         <img
           className="card-image"
-          src={event.image}
+          src={imageError ? getFallbackImage(event.music_style) : event.image}
           alt={`Illustration de ${event.title}`}
+          onError={handleImageError}
         />
       </aside>
       <aside className="card-content">
@@ -54,4 +73,5 @@ function EventCard({ event }: EventCardProps) {
     </article>
   );
 }
+
 export default EventCard;

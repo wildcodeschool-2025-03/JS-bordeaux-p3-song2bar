@@ -248,6 +248,42 @@
   color: var(--text-color);
 }
 
+.events-section > h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+  color: var(--text-color);
+}
+
+.events-carousel {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 1rem 0;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+  flex-wrap: nowrap;
+  scrollbar-width: none;
+}
+
+.events-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.events-carousel .card {
+  flex-shrink: 0;
+}
+
+/* Special styling for events tab - layout adjustments */
+.tab-content:has(.events-carousel) {
+  align-items: flex-start;
+  text-align: left;
+  overflow-x: visible;
+  width: 100%;
+}
+
 @media (max-width: 768px) {
   .user-profile-content {
     padding: 1rem;
