@@ -7,7 +7,9 @@ import LoadingScreen from "../LoadingScreen/LoadingScreen";
 
 function MusicGroupsFavouritedByUser() {
   const { auth } = useAuth();
-  const [favoriteGroups, setFavoriteGroups] = useState<MusicGroupInterface[]>([]);
+  const [favoriteGroups, setFavoriteGroups] = useState<MusicGroupInterface[]>(
+    [],
+  );
   const [groupsLoading, setGroupsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
