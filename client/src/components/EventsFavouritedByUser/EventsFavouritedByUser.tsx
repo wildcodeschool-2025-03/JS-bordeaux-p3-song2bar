@@ -180,4 +180,4 @@ function EventsFavouritedByUser() {
   );
 }
 
-export default EventsFavouritedByUser; 
+export default EventsFavouritedByUser;
