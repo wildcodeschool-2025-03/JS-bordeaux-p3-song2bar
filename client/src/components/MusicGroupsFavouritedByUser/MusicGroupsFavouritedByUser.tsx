@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+
+import { useAuth } from "../../contexts/AuthContext";
+import type { MusicGroupInterface } from "../../types/musicGroup";
 import GroupCard from "../GroupCard/GroupCard";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
-import type { MusicGroupInterface } from "../../types/musicGroup";
-import { useAuth } from "../../contexts/AuthContext";
 
 function MusicGroupsFavouritedByUser() {
   const { auth } = useAuth();
