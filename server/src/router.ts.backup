@@ -16,10 +16,19 @@ router.get("/api/groups/:id", groupActions.read);
 
 router.get("/api/bars/:id", barActions.read);
 router.get("/api/users/:id", userActions.read);
-router.get("/api/users/favourite_groups", favouriteActions.getFavouriteGroups);
-router.get("/api/:eventId/participants/count", favouriteActions.displayParticipation);
+router.get(
+  "/api/users/favourite_groups",
+  favouriteActions.getFavouriteGroups,
+);
+router.get(
+  "/api/:eventId/participants/count",
+  favouriteActions.displayParticipation,
+);
 
-router.get("/api/users/favourite_events", favouriteActions.getFavouriteEvents);
+router.get(
+  "/api/users/favourite_events",
+  favouriteActions.getFavouriteEvents,
+);
 
 router.post("/api/users", authActions.hashPassword, userActions.add);
 
