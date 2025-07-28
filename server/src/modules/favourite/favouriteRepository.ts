@@ -1,7 +1,30 @@
 import type { RowDataPacket } from "mysql2";
 import databaseClient from "../../../database/client";
-import type { Result, Rows } from "../../../database/client";
+import type { Rows, Result } from "../../../database/client";
 import type { MusicGroup } from "../../types/musicGroup";
+
+type FavouriteEvent = {
+  id: number;
+  title: string;
+  date: number;
+  start_at: string;
+  end_at: string;
+  description: string;
+  image: string;
+  bar_id: number;
+  group_id: number;
+  event_name: string;
+  bar_name: string;
+  address: string;
+  postcode: string;
+  city: string;
+  latitude: number;
+  longitude: number;
+  music_group_name: string;
+  music_style: string;
+  hour_only: number;
+  music_group_id: number;
+};
 
 class favouriteRepository {
   async findBarFavourited(userId: number, barId: number) {
@@ -96,7 +119,7 @@ class favouriteRepository {
     return rows as MusicGroup[];
   }
 
-  async getFavouriteEventsByUserId(userId: number): Promise<any[]> {
+  async getFavouriteEventsByUserId(userId: number): Promise<FavouriteEvent[]> {
     const [rows] = await databaseClient.query<Rows>(
       `SELECT e.id, e.title, e.date, e.start_at, e.end_at, e.description, e.image,
               e.bar_id, e.music_group_id as group_id, e.title as event_name,
@@ -113,7 +136,7 @@ class favouriteRepository {
       [userId],
     );
 
-    return rows as any[];
+    return rows as FavouriteEvent[];
   }
 
   async favouriteCount(event_id: number): Promise<number> {
