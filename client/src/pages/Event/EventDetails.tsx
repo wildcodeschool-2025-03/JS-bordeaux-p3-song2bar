@@ -5,7 +5,7 @@ import Participate from "../../components/Participate/Participate";
 import "../../assets/_variables.css";
 import "leaflet/dist/leaflet.css";
 import { toast } from "react-toastify";
-import LikeButton from "../../components/LikeButton/LikeButton";
+import FavouriteButton from "../../components/FavouriteButton/FavouriteButton";
 import { useAuth } from "../../contexts/AuthContext";
 import type { EventType } from "../../types/Event";
 import "./EventDetails.css";
@@ -135,7 +135,7 @@ function EventDetails() {
       <div className="event-name-banner">
         <h1 className="event-name">{event.title}</h1>
         <div className="favorite-button">
-          <LikeButton
+          <FavouriteButton
             favouriteEvent={favouriteEvent}
             unfavouriteEvent={unfavouriteEvent}
           />
