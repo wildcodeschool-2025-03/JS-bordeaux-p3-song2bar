@@ -127,9 +127,9 @@ function EventsFavouritedByUser() {
               onScroll={handleEventsScroll}
             >
               {favoriteEvents.map((event) => (
-                <EventCard 
-                  key={event.id} 
-                  event={event} 
+                <EventCard
+                  key={event.id}
+                  event={event}
                   participantsCount={participantsCount[event.id] ?? 0}
                 />
               ))}
