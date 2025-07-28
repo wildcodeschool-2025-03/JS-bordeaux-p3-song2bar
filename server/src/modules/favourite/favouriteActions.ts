@@ -215,6 +215,29 @@ const getFavouriteGroups: RequestHandler = async (req, res, next) => {
   }
 };
 
+const getFavouriteEvents: RequestHandler = async (req, res, next) => {
+  if (!req.auth?.role) {
+    res.sendStatus(StatusCodes.FORBIDDEN);
+    return;
+  }
+
+  try {
+    const userId = Number(req.auth.sub);
+
+    if (!userId || typeof userId !== "number") {
+      res.sendStatus(StatusCodes.BAD_REQUEST);
+      return;
+    }
+
+    const favouriteEvents =
+      await favouriteRepository.getFavouriteEventsByUserId(userId);
+
+    res.status(StatusCodes.OK).json(favouriteEvents);
+  } catch (err) {
+    next(err);
+  }
+};
+
 const readByMusicGroupId: RequestHandler = async (
   req,
   res,
@@ -353,6 +376,7 @@ export default {
   addFavouriteEvent,
   destroyFavouriteEvent,
   getFavouriteGroups,
+  getFavouriteEvents,
   addFavouriteMusicGroup,
   destroyFavouriteMusicGroup,
   readByBarId,
