@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useAuth } from "../../contexts/AuthContext";
+import type { FavoriteEvent } from "../../types/UserProfile";
 import EventCard from "../EventCard/EventCard";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
-import type { FavoriteEvent } from "../../types/UserProfile";
-import { useAuth } from "../../contexts/AuthContext";
 
 function EventsFavouritedByUser() {
   const { auth } = useAuth();

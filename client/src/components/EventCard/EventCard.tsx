@@ -58,4 +58,5 @@ function EventCard({ event, participantsCount }: EventCardProps) {
     </article>
   );
 }
+
 export default EventCard;
