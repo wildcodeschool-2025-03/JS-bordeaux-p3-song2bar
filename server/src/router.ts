@@ -17,12 +17,12 @@ router.get("/api/groups/:id", groupActions.read);
 router.get("/api/bars/:id", barActions.read);
 router.get("/api/users/:id", userActions.read);
 router.get(
-  "/api/users/:userId/favourite_groups",
+  "/api/users/favourite_groups",
   favouriteActions.getFavouriteGroups,
 );
 
 router.get(
-  "/api/users/:userId/favourite_events",
+  "/api/users/favourite_events",
   favouriteActions.getFavouriteEvents,
 );
 

@@ -12,11 +12,11 @@ function LoadingScreen() {
               </div>
             </div>
           </div>
+        </div>
 
-          <div className="player">
-            <div className="rect" />
-            <div className="circ" />
-          </div>
+        <div className="player">
+          <div className="rect" />
+          <div className="circ" />
         </div>
       </div>
     </div>

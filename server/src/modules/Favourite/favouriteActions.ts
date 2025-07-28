@@ -147,8 +147,13 @@ const destroyFavouriteEvent: RequestHandler = async (req, res, next) => {
 };
 
 const getFavouriteGroups: RequestHandler = async (req, res, next) => {
+  if (!req.auth?.role) {
+    res.sendStatus(StatusCodes.FORBIDDEN);
+    return;
+  }
+
   try {
-    const userId = Number(req.params.userId);
+    const userId = Number(req.auth.sub);
 
     if (!userId || typeof userId !== "number") {
       res.sendStatus(StatusCodes.BAD_REQUEST);
@@ -165,8 +170,13 @@ const getFavouriteGroups: RequestHandler = async (req, res, next) => {
 };
 
 const getFavouriteEvents: RequestHandler = async (req, res, next) => {
+  if (!req.auth?.role) {
+    res.sendStatus(StatusCodes.FORBIDDEN);
+    return;
+  }
+
   try {
-    const userId = Number(req.params.userId);
+    const userId = Number(req.auth.sub);
 
     if (!userId || typeof userId !== "number") {
       res.sendStatus(StatusCodes.BAD_REQUEST);
