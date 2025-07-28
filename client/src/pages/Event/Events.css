@@ -72,16 +72,21 @@
   z-index: 10;
 }
 
-.event-list {
-  width: 70vw;
+.events-container {
+  width: 75vw;
   background-color: #ebd2a4;
   border-radius: 20px;
-  margin-left: 17px;
-  padding: 35px;
+  padding-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+.events-list {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   gap: 45px;
+  padding: 40px;
 }
 
 .event-left-bar {
@@ -95,6 +100,7 @@
 .pagination-controls {
   color: black;
   display: flex;
+  justify-content: center;
   gap: 20px;
 }
 

@@ -2,7 +2,27 @@ import type { RequestHandler } from "express";
 import { StatusCodes } from "http-status-codes";
 import participateRepository from "./participateRepository";
 
-const findByEventId: RequestHandler = async (req, res, next): Promise<void> => {
+const browseByUserId: RequestHandler = async (req, res, next) => {
+  try {
+    const userId = Number(req.auth?.sub);
+
+    if (!userId) {
+      res.status(StatusCodes.UNAUTHORIZED);
+    }
+
+    const participations = await participateRepository.readAllByUserId(userId);
+
+    if (!participations || participations.length === 0) {
+      res.status(StatusCodes.OK).json({ message: "Aucune participation" });
+    }
+
+    res.status(StatusCodes.OK).json(participations);
+  } catch (err) {
+    console.error("Erreur lors de la récupération des participations :", err);
+  }
+};
+
+const readByEventId: RequestHandler = async (req, res, next): Promise<void> => {
   try {
     const userId = Number(req.auth?.sub);
     const eventId = Number(req.params.eventId);
@@ -83,4 +103,4 @@ const remove: RequestHandler = async (req, res, next): Promise<void> => {
   }
 };
 
-export default { add, remove, findByEventId };
+export default { add, remove, browseByUserId, readByEventId };

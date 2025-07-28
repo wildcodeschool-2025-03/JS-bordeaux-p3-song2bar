@@ -4,10 +4,15 @@ import type { EventType } from "../../types/Event";
 
 type EventCardProps = {
   event: EventType;
+  className?: string;
   participantsCount?: number;
 };
 
-function EventCard({ event, participantsCount }: EventCardProps) {
+function EventCard({
+  event,
+  className = "",
+  participantsCount,
+}: EventCardProps) {
   const formatTime = (value: string) => {
     return `${value.slice(0, 2)}h`;
   };
@@ -15,7 +20,7 @@ function EventCard({ event, participantsCount }: EventCardProps) {
 
   return (
     <article
-      className="card"
+      className={`card ${className}`}
       onClick={() => navigate(`/events/${event.id}`)}
       onKeyDown={(e) => {
         if (e.key === "Enter") {

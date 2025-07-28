@@ -33,7 +33,11 @@ router.post("/api/login", authActions.login);
 
 router.use(authActions.verifyToken);
 
-router.get("/api/participate/:eventId", participateActions.findByEventId);
+router.get("/api/participate", participateActions.browseByUserId);
+router.get("/api/participate/:eventId", participateActions.readByEventId);
+
+router.post("/api/participate", participateActions.add);
+router.delete("/api/participate/:userId/:eventId", participateActions.remove);
 
 router.post("/api/participate", participateActions.add);
 router.delete("/api/participate/:eventId", participateActions.remove);

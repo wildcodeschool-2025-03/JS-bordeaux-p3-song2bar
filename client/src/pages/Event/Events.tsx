@@ -219,19 +219,21 @@ function Events() {
           )}
         </article>
         {filteredAndSearchedEvents.length === 0 ? (
-          <section className="event-list">
+          <article className="events-container">
             <h3>Aucun événement trouvé pour cette date</h3>
-          </section>
+          </article>
         ) : (
           <>
-            <section className="event-list">
-              {paginatedEvents.map((event) => (
-                <EventCard
-                  key={event.id}
-                  event={event}
-                  participantsCount={participantsCount[event.id] ?? 0}
-                />
-              ))}
+            <article className="events-container">
+              <div className="events-list">
+                {paginatedEvents.map((event) => (
+                  <EventCard
+                    key={event.id}
+                    event={event}
+                    participantsCount={participantsCount[event.id] ?? 0}
+                  />
+                ))}
+              </div>
               <div className="pagination-controls">
                 <button
                   className="pagination-buttons"
@@ -269,7 +271,7 @@ function Events() {
                   />
                 </button>
               </div>
-            </section>
+            </article>
           </>
         )}
       </section>
