@@ -1,6 +1,6 @@
 import { useState } from "react";
-import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";
 import EventsFavouritedByUser from "../../components/EventsFavouritedByUser/EventsFavouritedByUser";
+import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";
 import MusicGroupsFavouritedByUser from "../../components/MusicGroupsFavouritedByUser/MusicGroupsFavouritedByUser";
 import { useAuth } from "../../contexts/AuthContext";
 import "./UserProfile.css";

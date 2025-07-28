@@ -143,4 +143,4 @@ function MusicGroupsFavouritedByUser() {
   );
 }
 
-export default MusicGroupsFavouritedByUser;
+export default MusicGroupsFavouritedByUser; 
