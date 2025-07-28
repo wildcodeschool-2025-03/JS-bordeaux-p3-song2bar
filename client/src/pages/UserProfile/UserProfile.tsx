@@ -1,11 +1,11 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useRef, useState} from "react";
 import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";
 import type { UserInfo } from "../../types/User";
-import type { MusicGroupInterface } from "../../types/musicGroup";
 import type { FavoriteEvent } from "../../types/UserProfile";
+import type { MusicGroupInterface } from "../../types/musicGroup";
 import "./UserProfile.css";
-import GroupCard from "../../components/GroupCard/GroupCard";
 import EventCard from "../../components/EventCard/EventCard";
+import GroupCard from "../../components/GroupCard/GroupCard";
 import { useAuth } from "../../contexts/AuthContext";
 
 function UserProfile() {
@@ -367,7 +367,9 @@ function UserProfile() {
             />
           </div>
           <h1>
-            {userInfo ? `${userInfo.firstname} ${userInfo.lastname}` : `${auth.user.firstname} ${auth.user.lastname}`}
+            {userInfo
+              ? `${userInfo.firstname} ${userInfo.lastname}`
+              : `${auth.user.firstname} ${auth.user.lastname}`}
           </h1>
         </div>
       </header>
