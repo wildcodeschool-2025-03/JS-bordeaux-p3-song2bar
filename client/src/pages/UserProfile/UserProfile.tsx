@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState} from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";
 import type { UserInfo } from "../../types/User";
 import type { FavoriteEvent } from "../../types/UserProfile";
