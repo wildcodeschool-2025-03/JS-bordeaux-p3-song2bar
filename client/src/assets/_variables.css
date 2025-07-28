@@ -165,7 +165,6 @@ input {
   font-weight: bold;
   margin: 0;
   text-align: center;
-  box-shadow: 0 4px 15px rgba(157, 216, 243, 0.705);
   display: flex;
   align-items: center;
   min-width: 300px;

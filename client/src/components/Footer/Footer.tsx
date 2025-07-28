@@ -32,42 +32,19 @@ function Footer() {
               alt="mini-logo-facebook"
             />
           </div>
-          <div className="subscribers">
-            <p className="number-subscribers">
-              Déjà 150 000
-              <br />
-              abonnés !
-            </p>
-          </div>
+
           <button type="button" className="button-subscribers">
-            S'ABONNER
+            S'ABONNER <br /> (Déjà 150 000 abonnés !)
           </button>
         </div>
         <div className="footer-middle-container">
-          <div className="top-page-container">
-            <button
-              className="top-page"
-              type="button"
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            >
-              Haut de page
-            </button>
-            <p className="legal-notices">Mentions légales, crédits et C.G.U.</p>
-          </div>
-          <div className="footer-images">
-            <img
-              src="/images/home_images/guitare-fleur.png"
-              alt="guitare-fleur"
-              width="auto"
-              height="110"
-            />
-            <img
-              src="/images/home_images/micro.png"
-              alt="micro"
-              width="auto"
-              height="120"
-            />
-          </div>
+          <p className="legal-notices">Mentions légales, crédits et C.G.U.</p>
+          <img
+            src="/images/home_images/micro.png"
+            alt="micro"
+            width="auto"
+            height="120"
+          />
         </div>
         <div className="info-song2bar">
           <div className="paragraph-song2bar">

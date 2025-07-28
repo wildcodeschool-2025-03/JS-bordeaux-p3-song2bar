@@ -18,7 +18,7 @@ class ParticipateSeeder extends AbstractSeeder {
   run() {
     const userInParticipate = new Set();
 
-    for (let fakeEventRefId = 1; fakeEventRefId < 6; fakeEventRefId++) {
+    for (let fakeEventRefId = 1; fakeEventRefId < 120; fakeEventRefId++) {
       for (let i = 0; i < 10; i++) {
         const fakeParticipate = {
           user_id: this.faker.number.int({ min: 1, max: 30 }),

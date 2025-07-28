@@ -7,19 +7,6 @@
   white-space: nowrap;
 }
 
-.event-list {
-  width: 66%;
-  background-color: #ebd2a4;
-  border-radius: 20px;
-  margin-left: 50px;
-  margin-bottom: 100px;
-  padding: 40px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  gap: 40px;
-}
-
 .filters-searchbar {
   display: flex;
   justify-content: center;
@@ -102,7 +89,17 @@
   flex-direction: row-reverse;
   align-items: flex-start;
   justify-content: space-between;
+  gap: 50px;
+}
+
+.pagination-controls {
+  color: black;
+  display: flex;
   gap: 20px;
+}
+
+.pagination-buttons {
+  background-color: transparent;
 }
 
 @media screen and (max-width: 1024px) {

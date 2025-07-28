@@ -33,7 +33,7 @@ function Events() {
   >({});
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 12;
 
   useEffect(() => {
     async function fetchEvent() {
@@ -219,7 +219,9 @@ function Events() {
           )}
         </article>
         {filteredAndSearchedEvents.length === 0 ? (
-          <p>Aucun événement trouvé pour cette date</p>
+          <section className="event-list">
+            <h3>Aucun événement trouvé pour cette date</h3>
+          </section>
         ) : (
           <>
             <section className="event-list">
@@ -230,33 +232,47 @@ function Events() {
                   participantsCount={participantsCount[event.id] ?? 0}
                 />
               ))}
+              <div className="pagination-controls">
+                <button
+                  className="pagination-buttons"
+                  type="button"
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.max(prev - 1, 1))
+                  }
+                  disabled={currentPage === 1}
+                >
+                  <img
+                    src="/icon/fleche-gauche.png"
+                    alt="Page précédente"
+                    className="fleche-icon"
+                    width="10"
+                  />
+                </button>
+
+                <span>
+                  {currentPage} ... {totalPages}
+                </span>
+
+                <button
+                  className="pagination-buttons"
+                  type="button"
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                  }
+                  disabled={currentPage === totalPages}
+                >
+                  <img
+                    src="/icon/fleche-droite.png"
+                    alt="page suivante"
+                    className="fleche-icon"
+                    width="10"
+                  />
+                </button>
+              </div>
             </section>
           </>
         )}
       </section>
-      <div className="pagination-controls">
-        <button
-          type="button"
-          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-          disabled={currentPage === 1}
-        >
-          ←
-        </button>
-
-        <span>
-          {currentPage} ... {totalPages}
-        </span>
-
-        <button
-          type="button"
-          onClick={() =>
-            setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-          }
-          disabled={currentPage === totalPages}
-        >
-          →
-        </button>
-      </div>
     </>
   );
 }

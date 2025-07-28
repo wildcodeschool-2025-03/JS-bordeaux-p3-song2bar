@@ -1,12 +1,12 @@
 import { addDays, format, isSameDay, startOfWeek } from "date-fns";
 import { fr } from "date-fns/locale";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./HorizontalCalendar.css";
 import { FaRegCalendarAlt } from "react-icons/fa";
 
 type HorizontalCalendarProps = {
   selectedDate: Date | null;
-  onSelectDate: (date: Date) => void;
+  onSelectDate: (date: Date | null) => void;
   onToggleCalendar: () => void;
 };
 
@@ -19,7 +19,21 @@ function HorizontalCalendar({
     startOfWeek(selectedDate || new Date(), { weekStartsOn: 1 }),
   );
 
+  useEffect(() => {
+    if (selectedDate) {
+      setWeekStart(startOfWeek(selectedDate, { weekStartsOn: 1 }));
+    }
+  }, [selectedDate]);
+
   const daysOfWeek = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
+
+  const handleDateClick = (day: Date) => {
+    if (selectedDate && isSameDay(day, selectedDate)) {
+      onSelectDate(null);
+    } else {
+      onSelectDate(day);
+    }
+  };
 
   return (
     <>
@@ -42,7 +56,7 @@ function HorizontalCalendar({
               type="button"
               key={day.toDateString()}
               className={`day-button ${selectedDate && isSameDay(day, selectedDate) ? "selected-date" : ""}`}
-              onClick={() => onSelectDate(day)}
+              onClick={() => handleDateClick(day)}
             >
               <div>{format(day, "EEE", { locale: fr })}</div>
               <div>{format(day, "dd")}</div>
@@ -61,6 +75,7 @@ function HorizontalCalendar({
             />
           </button>
         </div>
+
         <div>
           <button
             type="button"
