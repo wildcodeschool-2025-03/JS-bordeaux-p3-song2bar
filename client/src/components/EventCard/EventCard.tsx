@@ -5,9 +5,10 @@ import type { EventType } from "../../types/Event";
 
 type EventCardProps = {
   event: EventType;
+  participantsCount: number;
 };
 
-function EventCard({ event }: EventCardProps) {
+function EventCard({ event, participantsCount }: EventCardProps) {
   const [imageError, setImageError] = useState(false);
   
   const formatTime = (value: string) => {
@@ -50,8 +51,11 @@ function EventCard({ event }: EventCardProps) {
       </aside>
       <aside className="card-content">
         <h2 className="event-title">{event.title}</h2>
+
         <p className="event-style">{event.music_style}</p>
       </aside>
+      <p className="participant-nb">👥 {participantsCount}</p>
+
       <aside className="card-bottom">
         <div className="card-bottom-corner">
           <img
@@ -59,6 +63,7 @@ function EventCard({ event }: EventCardProps) {
             alt="Localisation"
             className="location_icon"
           />
+
           <p className="event-bar">{event.bar_name}</p>
         </div>
         <div className="card-bottom-corner">

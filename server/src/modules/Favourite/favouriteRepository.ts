@@ -1,3 +1,4 @@
+import type { RowDataPacket } from "mysql2";
 import databaseClient from "../../../database/client";
 import type { Result, Rows } from "../../../database/client";
 import type { MusicGroup } from "../../types/musicGroup";
@@ -103,6 +104,14 @@ class FavouriteRepository {
     );
 
     return result.affectedRows;
+  }
+  async favouriteCount(event_id: number): Promise<number> {
+    const [rows] = await databaseClient.query<RowDataPacket[]>(
+      "SELECT COUNT(*) AS count FROM participate WHERE event_id = ?",
+      [event_id],
+    );
+
+    return rows[0].count;
   }
 }
 

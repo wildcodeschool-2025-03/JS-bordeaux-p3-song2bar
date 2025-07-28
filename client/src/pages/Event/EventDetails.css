@@ -150,12 +150,10 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: rgba(42, 42, 42, 0.8);
-  padding: 2rem;
-  border-radius: 15px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.event-picture img {
+  border-radius: 20px;
 }
 
 .groups-name {
@@ -211,7 +209,7 @@
   flex-direction: column;
   grid-column: 2 / 3;
   grid-row: 1 / 2;
-  gap: 1.2rem;
+  gap: 0.6rem;
   font-size: 1.1rem;
   margin-bottom: 0;
   color: var(--text-color);
@@ -227,13 +225,17 @@
   border-left: 4px solid var(--button-primary-color);
 }
 
-.event-meta > .no-background {
-  background: none !important;
-  border: none;
-  display: flex;
+.participate-wrapper {
+  grid-row: 1 / 2;
+  grid-column: 2 / 3;
+  z-index: 2;
+  align-self: end;
+  justify-self: center;
+}
 
-  justify-content: center;
-  flex-direction: column-reverse;
+.participate-number p {
+  font-size: 1.1rem;
+  font-weight: bold;
 }
 
 .favorite-button {

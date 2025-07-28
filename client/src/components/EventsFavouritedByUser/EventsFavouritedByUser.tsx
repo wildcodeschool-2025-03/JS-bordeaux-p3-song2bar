@@ -10,6 +10,9 @@ function EventsFavouritedByUser() {
   const [eventsLoading, setEventsLoading] = useState(false);
   const [eventsCurrentPage, setEventsCurrentPage] = useState(0);
   const eventsCarouselRef = useRef<HTMLDivElement>(null);
+  const [participantsCount, setParticipantsCount] = useState<
+    Record<number, number>
+  >({});
 
   const fetchFavoriteEvents = useCallback(async () => {
     try {
@@ -37,6 +40,36 @@ function EventsFavouritedByUser() {
       fetchFavoriteEvents();
     }
   }, [auth?.user.id, fetchFavoriteEvents]);
+
+  useEffect(() => {
+    const fetchParticipantsCounts = async () => {
+      const counts: Record<number, number> = {};
+
+      await Promise.all(
+        favoriteEvents.map(async (event) => {
+          try {
+            const res = await fetch(
+              `${import.meta.env.VITE_API_URL}/api/${event.id}/participants/count`,
+            );
+            const data = await res.json();
+            counts[event.id] = data.participantsCount ?? 0;
+          } catch (error) {
+            console.error(
+              "Erreur lors du fetch participants pour l'événement",
+              event.id,
+            );
+            counts[event.id] = 0;
+          }
+        }),
+      );
+
+      setParticipantsCount(counts);
+    };
+
+    if (favoriteEvents.length > 0) {
+      fetchParticipantsCounts();
+    }
+  }, [favoriteEvents]);
 
   const cardsPerPage = 5;
   const eventsTotalPages = Math.ceil(favoriteEvents.length / cardsPerPage);
@@ -94,7 +127,11 @@ function EventsFavouritedByUser() {
               onScroll={handleEventsScroll}
             >
               {favoriteEvents.map((event) => (
-                <EventCard key={event.id} event={event} />
+                <EventCard 
+                  key={event.id} 
+                  event={event} 
+                  participantsCount={participantsCount[event.id] ?? 0}
+                />
               ))}
             </div>
 

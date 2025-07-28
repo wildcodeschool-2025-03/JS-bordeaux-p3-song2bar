@@ -1,159 +1,207 @@
-import EventCard from "../../components/EventCard/EventCard";
-import "./Events.css";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import { Link, useNavigate, useParams } from "react-router";
+import Participate from "../../components/Participate/Participate";
+import "../../assets/_variables.css";
+import "leaflet/dist/leaflet.css";
+import { toast } from "react-toastify";
+import FavouriteButton from "../../components/FavouriteButton/FavouriteButton";
+import { useAuth } from "../../contexts/AuthContext";
 import type { EventType } from "../../types/Event";
-import "../../components/HorizontalCalendar/HorizontalCalendar";
-import HorizontalCalendar from "../../components/HorizontalCalendar/HorizontalCalendar";
+import "./EventDetails.css";
 
-import DatePicker from "react-datepicker";
-
-const formatDate = (dateInput: Date | string) => {
-  const date = typeof dateInput === "string" ? new Date(dateInput) : dateInput;
-  const year = date.getFullYear();
-  const month = `${date.getMonth() + 1}`.padStart(2, "0");
-  const day = `${date.getDate()}`.padStart(2, "0");
-  return `${year}-${month}-${day}`;
-};
-
-function Events() {
-  const location = useLocation();
-  const selectedDate = location.state?.selectedDate || null;
-  const [allEvents, setAllEvents] = useState<EventType[]>([]);
-  const [filteredEvents, setFilteredEvents] = useState<EventType[]>([]);
-  const [error, setError] = useState(false);
-  const [search, setSearch] = useState("");
-  const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
-  const [date, setDate] = useState<Date | null>(
-    selectedDate ? new Date(selectedDate) : null,
-  );
-  const [showCalendar, setShowCalendar] = useState(false);
+function EventDetails() {
+  const { id } = useParams();
+  const [event, setEvent] = useState<EventType | null>(null);
+  const [fetchError, setFetchError] = useState(false);
+  const { auth } = useAuth();
+  const navigate = useNavigate();
+  const userId = auth?.user.id;
+  const eventId = Number(id);
+  const [participantsCount, setParticipantsCount] = useState<number>(0);
 
   useEffect(() => {
-    async function fetchEvent() {
+    const fetchEvent = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/events`);
-        if (!res.ok) {
-          setError(true);
-          return;
-        }
-        const events = await res.json();
-        setAllEvents(events);
-        setFilteredEvents(events);
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/events/${id}`,
+        );
+        const event = await res.json();
+        setEvent(event);
       } catch (error) {
         console.error("Erreur lors du fetch", error);
+        setFetchError(true);
       }
-    }
+    };
     fetchEvent();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
-    if (date) {
-      const formatted = formatDate(date);
-      const filtered = allEvents.filter((event) => {
-        const eventDate = new Date(event.date);
-        const eventFormatted = formatDate(eventDate);
-        return eventFormatted === formatted;
-      });
-      setFilteredEvents(filtered);
-    } else {
-      setFilteredEvents(allEvents);
-    }
-  }, [date, allEvents]);
+    const fetchParticipants = async () => {
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/${eventId}/participants/count`,
+      );
 
-  if (error) return <h1>Désolé il n'y a pas d'évènements </h1>;
-  if (!filteredEvents) {
-    <p>Chargement en cours...</p>;
-  }
-  const musicStyles = Array.from(
-    new Set(allEvents.map((event) => event.music_style)),
-  );
+      const data = await res.json();
+      setParticipantsCount(data.participantsCount || 0);
+    };
+
+    fetchParticipants();
+  }, [eventId]);
+
+  if (fetchError) return <p>Évènement introuvable</p>;
+  if (!event) return <p>Chargement en cours...</p>;
+
+  const favouriteEvent = async () => {
+    if (!auth) {
+      navigate("/login", { state: { isloggedToFavouriteEvent: false } });
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/favourite_event`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${auth.token}`,
+          },
+          body: JSON.stringify({ userId, eventId }),
+        },
+      );
+      if (response.ok) {
+        toast("Cet évènement est maintenant dans vos favoris", {
+          type: "success",
+        });
+      } else {
+        throw new Error("Erreur serveur");
+      }
+    } catch (error) {
+      console.error("Erreur lors de la favorisation de l'évènement", error);
+      toast("Impossible d'ajouter l'évènement aux favoris", {
+        type: "error",
+      });
+    }
+  };
+
+  const unfavouriteEvent = async () => {
+    if (!auth) {
+      navigate("/login", { state: { isloggedToFavouriteBar: false } });
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/favourite_event/${userId}/${eventId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${auth.token}`,
+          },
+        },
+      );
+      if (response.ok) {
+        toast("Cet évènement a été retiré de vos favoris", { type: "info" });
+      } else {
+        throw new Error("Erreur serveur");
+      }
+    } catch (error) {
+      console.error("Erreur lors du retrait de l'évènement", error);
+      toast("Impossible de retirer l'évènement des favoris", {
+        type: "error",
+      });
+    }
+  };
+  const formatTime = (time: string) => {
+    if (!time) return "";
+    const [hour, minute] = time.split(":");
+    return `${hour.padStart(2, "0")}:${minute.padStart(2, "0")}`;
+  };
 
   return (
-    <>
-      <section className="filters-searchbar">
-        <input
-          className="search-bar"
-          type="text"
-          value={search}
-          onChange={(event) => {
-            setSearch(event.target.value);
-          }}
-          placeholder="Trouver votre événement, votre bar ou votre groupe de musique"
-        />
+    <div className="event-details">
+      <div className="return-button-container">
         <button
           type="button"
-          onClick={() => setShowCalendar(!showCalendar)}
-          className="calendar-icon-button"
-        />
-      </section>
-      <div className="menu-button">
-        <p>Filtre l'agenda</p>
+          className="return-button"
+          onClick={() => navigate(-1)}
+        >
+          ← Retour
+        </button>
       </div>
 
-      <section className="filters-checkbox">
-        {musicStyles.map((style) => (
-          <label key={style}>
-            <input
-              type="checkbox"
-              value={style}
-              checked={selectedStyles.includes(style)}
-              onChange={(e) => {
-                const value = e.target.value;
-                if (selectedStyles.includes(value)) {
-                  setSelectedStyles(selectedStyles.filter((s) => s !== value));
-                } else {
-                  setSelectedStyles([...selectedStyles, value]);
-                }
-              }}
+      <div className="event-name-banner">
+        <h1 className="event-name">{event.title}</h1>
+        <div className="favorite-button">
+          <FavouriteButton
+            favouriteEvent={favouriteEvent}
+            unfavouriteEvent={unfavouriteEvent}
+          />
+        </div>
+      </div>
+
+      <section className="event-info">
+        <div className="event-picture">
+          <img src={event.image} alt={event.bar_name} />
+        </div>
+        <div className="description-content">
+          <p>{event.description}</p>
+        </div>
+        <div className="event-meta">
+          <div className="bar-title">
+            <Link to={`/bars/${event.bar_id}`} className="bar-title bold">
+              🍺 {event.bar_name}
+            </Link>
+          </div>
+          <div className="location">
+            📍 {event.address}, {event.postcode} {event.city}
+          </div>
+          <div className="music-style">🎵 {event.music_style}</div>
+          <div className="groups-name">
+            <Link to={`/groups/${event.music_group_id}`}>
+              🎤 {event.music_group_name}
+            </Link>
+          </div>
+          <div className="hour-event">
+            🕐 {formatTime(event.start_at)} à {formatTime(event.end_at)}
+          </div>
+          <div className="participate-number">
+            <p>
+              👥​ ​{" "}
+              {participantsCount === 0
+                ? "Aucun participant à cet évènement"
+                : `${participantsCount} personne${participantsCount > 1 ? "s" : ""} participe${participantsCount > 1 ? "nt" : ""} à cet évènement`}
+            </p>
+          </div>
+        </div>
+        <div className="participate-wrapper">
+          <Participate />
+        </div>
+
+        <div className="googlemap">
+          <MapContainer
+            center={[event.latitude, event.longitude]}
+            zoom={16}
+            className="map-container"
+          >
+            <TileLayer
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
             />
-            <span>{style}</span>
-          </label>
-        ))}
+            <Marker position={[event.latitude, event.longitude]}>
+              <Popup>
+                <strong>{event.event_name}</strong>
+                <br />
+                {event.music_style}
+              </Popup>
+            </Marker>
+          </MapContainer>
+        </div>
       </section>
-
-      <HorizontalCalendar
-        selectedDate={date}
-        onSelectDate={(newDate) => setDate(newDate)}
-        onToggleCalendar={() => setShowCalendar((prev) => !prev)}
-      />
-      {showCalendar && (
-        <DatePicker
-          selected={date}
-          onChange={(newDate) => {
-            setDate(newDate);
-            setShowCalendar(false);
-          }}
-          inline
-          calendarStartDay={1}
-          locale="fr"
-        />
-      )}
-
-      {filteredEvents.length === 0 ? (
-        <p>Aucun événement trouvé pour cette date</p>
-      ) : (
-        <section className="event-list">
-          {filteredEvents
-            .filter((event) => {
-              return (
-                selectedStyles.length === 0 ||
-                selectedStyles.includes(event.music_style)
-              );
-            })
-            .filter((event) => {
-              return (
-                event.title.toLowerCase().includes(search.toLowerCase()) ||
-                event.bar_name.toLowerCase().includes(search.toLowerCase())
-              );
-            })
-            .map((event) => (
-              <EventCard key={event.id} event={event} />
-            ))}
-        </section>
-      )}
-    </>
+    </div>
   );
 }
 
-export default Events;
+export default EventDetails;

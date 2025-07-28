@@ -11,8 +11,10 @@
 .day-button {
   background: none;
   border: none;
+  font-weight: bold;
+  font-size: larger;
   cursor: pointer;
-  padding: 0.5rem;
+  padding: 1.5rem;
   border-radius: 6px;
   text-align: center;
   min-width: 50px;
@@ -29,8 +31,64 @@
 }
 
 .calendar-container {
-  max-width: 443px;
-  margin: 0 auto;
+  max-width: 60vw;
+  height: 6rem;
+  display: flex;
+  gap: 20px;
+  border-radius: 10px;
+  margin: auto;
+  margin-top: 3rem;
   padding: 1rem;
   background-color: white;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.calendar-icon-button {
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  justify-content: space-evenly;
+  flex-direction: row-reverse;
+  width: 19rem;
+  height: 3.5rem;
+  background-color: black;
+  color: white;
+  margin-left: 40px;
+}
+
+.selected-date {
+  color: #aa682e;
+  font-weight: bold;
+}
+.arrow-button {
+  border: none;
+  background: none;
+}
+
+@media screen and (max-width: 1024px) {
+  .calendar-container {
+    max-width: 70vw;
+    height: 12rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 10px;
+    margin: auto;
+    margin-top: 3rem;
+    padding: 1rem;
+    background-color: white;
+  }
+  .calendar-icon-button {
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    justify-content: space-evenly;
+    flex-direction: row-reverse;
+    width: 19rem;
+    background-color: black;
+    color: white;
+    margin-left: 0px;
+  }
 }

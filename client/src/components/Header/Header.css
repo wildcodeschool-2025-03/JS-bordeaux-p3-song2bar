@@ -19,7 +19,6 @@
 .connexion-wrapper {
   display: flex;
   justify-content: flex-end;
-  width: 229px;
 }
 
 .logo-connexion-button {
@@ -43,7 +42,7 @@
   z-index: 10;
 }
 
-@media screen and (width <= 600px) {
+@media screen and (width <= 1024px) {
   .header {
     flex-direction: column;
     align-items: center;
@@ -55,7 +54,7 @@
 
   .connexion-wrapper {
     order: 2;
-    margin-bottom: 1rem;
+    margin-left: 1rem;
   }
 
   .search-bar {

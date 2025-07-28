@@ -33,6 +33,11 @@
   width: 100%;
   padding: 8px;
 }
+.participant-nb {
+  color: black;
+  font-size: 0.8rem;
+  padding-left: 8px;
+}
 
 .card-bottom-corner {
   display: flex;
