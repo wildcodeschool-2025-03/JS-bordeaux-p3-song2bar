@@ -43,9 +43,8 @@ function Footer() {
             S'ABONNER
           </button>
         </div>
-        <div className="footer-images">
-          <img src="/images/home_images/micro.png" alt="micro" />
-          <div className="middle-container">
+        <div className="footer-middle-container">
+          <div className="top-page-container">
             <button
               className="top-page"
               type="button"
@@ -55,10 +54,20 @@ function Footer() {
             </button>
             <p className="legal-notices">Mentions légales, crédits et C.G.U.</p>
           </div>
-          <img
-            src="/images/home_images/guitare-fleur.png"
-            alt="guitare-fleur"
-          />
+          <div className="footer-images">
+            <img
+              src="/images/home_images/guitare-fleur.png"
+              alt="guitare-fleur"
+              width="auto"
+              height="110"
+            />
+            <img
+              src="/images/home_images/micro.png"
+              alt="micro"
+              width="auto"
+              height="120"
+            />
+          </div>
         </div>
         <div className="info-song2bar">
           <div className="paragraph-song2bar">

@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import "./Register.css";
 import type { ChangeEventHandler, FormEventHandler } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import LogoSite2 from "/images/logo-site2.png";
 
 function Register() {
   const [lastname, setLastname] = useState("");
@@ -28,7 +29,10 @@ function Register() {
     event.preventDefault();
 
     if (password.length < 8 || password !== confirmPassword) {
-      toast("Création de compte invalide !", { type: "error" });
+      toast("Création de compte invalide !", {
+        type: "error",
+        autoClose: 3000,
+      });
       return;
     }
 
@@ -51,6 +55,7 @@ function Register() {
       if (response.status === 409) {
         toast("Cet e-mail est déjà lié à un compte existant", {
           type: "error",
+          autoClose: 3000,
         });
         return;
       }
@@ -60,7 +65,10 @@ function Register() {
           state: { accountCreated: true },
         });
       } else {
-        toast("Création de compte invalide !", { type: "error" });
+        toast("Création de compte invalide !", {
+          type: "error",
+          autoClose: 3000,
+        });
       }
     } catch (err) {
       console.error(err);
@@ -70,59 +78,86 @@ function Register() {
   return (
     <>
       <section className="auth">
-        <h1>S'inscrire</h1>
-        <form className="register-form" onSubmit={noRefresh}>
-          <input
-            className={`input ${lastname.length >= 2 && /^[a-zA-ZÀ-ÿ\s\-']+$/.test(lastname) ? "green" : ""}`}
-            type="text"
-            value={lastname}
-            placeholder="Nom"
-            onChange={(e) => setLastname(e.target.value)}
-          />
-          <input
-            className={`input ${firstname.length >= 2 && /^[a-zA-ZÀ-ÿ\s\-']+$/.test(firstname) ? "green" : ""}`}
-            type="text"
-            value={firstname}
-            placeholder="Prénom"
-            onChange={(e) => setFirstname(e.target.value)}
-          />
-          <input
-            className={`input ${/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? "green" : ""}`}
-            value={email}
-            type="email"
-            placeholder="E-mail"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <div className="password">
-            <p className={password.length >= 8 ? "green" : "red"}>
-              Votre mot de passe doit contenir au moins 8 caractères
-            </p>
-            <input
-              className={`input ${password.length >= 8 ? "green" : ""}`}
-              type="password"
-              value={password}
-              onChange={handlePasswordChange}
-              placeholder="Mot de passe"
+        <article>
+          <Link to={"/"}>
+            <img
+              id="logo-site"
+              src={LogoSite2}
+              alt="logo du site"
+              width="100"
+              height="100"
             />
-          </div>
-          <input
-            className={`input ${password === confirmPassword && confirmPassword.length > 0 ? "green" : ""}`}
-            type="password"
-            value={confirmPassword}
-            onChange={handleConfirmPasswordChange}
-            placeholder="Confirmation mot de passe"
-          />
-          <button className="participate-button" type="submit">
-            S'inscrire
-          </button>
-        </form>
-        <h3>
-          As-tu un compte ?{" "}
-          <Link className="underline" to={"/login"}>
-            Se connecter
           </Link>
-        </h3>
-        <ToastContainer position="top-right" theme="colored" autoClose={3000} />
+          <h1>S'inscrire</h1>
+          <form className="register-form" onSubmit={noRefresh}>
+            <input
+              className={`input ${lastname.length >= 2 && /^[a-zA-ZÀ-ÿ\s\-']+$/.test(lastname) ? "green" : ""}`}
+              type="text"
+              value={lastname}
+              placeholder="Nom"
+              onChange={(e) => setLastname(e.target.value)}
+            />
+            <input
+              className={`input ${firstname.length >= 2 && /^[a-zA-ZÀ-ÿ\s\-']+$/.test(firstname) ? "green" : ""}`}
+              type="text"
+              value={firstname}
+              placeholder="Prénom"
+              onChange={(e) => setFirstname(e.target.value)}
+            />
+            <input
+              className={`input ${/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? "green" : ""}`}
+              value={email}
+              type="email"
+              placeholder="E-mail"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <div className="password">
+              <p
+                className={
+                  password.length === 0
+                    ? "text-black"
+                    : password.length > 0 && password.length < 8
+                      ? "text-red"
+                      : "text-green"
+                }
+              >
+                Votre mot de passe doit contenir au moins 8 caractères
+              </p>
+              <input
+                className={`input ${password.length >= 8 ? "green" : ""}`}
+                type="password"
+                value={password}
+                onChange={handlePasswordChange}
+                placeholder="Mot de passe"
+              />
+            </div>
+            <input
+              className={`input ${password === confirmPassword && confirmPassword.length > 0 ? "green" : ""}`}
+              type="password"
+              value={confirmPassword}
+              onChange={handleConfirmPasswordChange}
+              placeholder="Confirmation mot de passe"
+            />
+            <button id="register-button" type="submit">
+              S'inscrire
+            </button>
+          </form>
+          <h3>
+            As-tu un compte ? &nbsp;
+            <Link
+              className="underline"
+              to={"/login"}
+              onClick={() => {
+                setTimeout(() => {
+                  window.scrollTo(0, 0);
+                }, 0);
+              }}
+            >
+              Se connecter
+            </Link>
+          </h3>
+        </article>
+        <ToastContainer theme="colored" position="top-right" limit={2} />
       </section>
     </>
   );

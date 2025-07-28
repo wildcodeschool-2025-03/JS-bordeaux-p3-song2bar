@@ -1,7 +1,7 @@
 import { type FormEventHandler, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router";
 import "./Login.css";
-import { ToastContainer, toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import LogoSite from "/images/logo-site.png";
 import { useAuth } from "../../contexts/AuthContext";
 
@@ -19,31 +19,31 @@ export default function Login() {
         "Compte créé avec succès ! Vous pouvez maintenant vous connecter.",
         {
           type: "success",
-          position: "top-right",
-          autoClose: 4000,
         },
       );
     }
     if (state?.islogged === false) {
       toast("Veuillez vous connecter pour participer à un évènement", {
         type: "error",
-        position: "top-right",
-        autoClose: 4000,
       });
     }
     if (state?.isloggedToFavouriteBar === false) {
       toast("Veuillez vous connecter pour ajouter un bar à vos favoris", {
         type: "error",
-        position: "top-right",
-        autoClose: 4000,
       });
     }
     if (state?.isloggedToFavouriteEvent === false) {
       toast("Veuillez vous connecter pour ajouter un évènement à vos favoris", {
         type: "error",
-        position: "top-right",
-        autoClose: 4000,
       });
+    }
+    if (state?.isloggedToFavouriteMusicGroup === false) {
+      toast(
+        "Veuillez vous connecter pour ajouter un groupe de musique à vos favoris",
+        {
+          type: "error",
+        },
+      );
     }
   }, [state]);
 
@@ -67,12 +67,12 @@ export default function Login() {
         const user = await response.json();
         setAuth(user);
 
-        navigate("/events/10");
+        navigate("/");
       } else {
         console.info(response);
         toast(
           "Connexion impossible ! Votre identifiant ou mot de passe est invalide",
-          { type: "error" },
+          { type: "error", autoClose: 3000 },
         );
       }
     } catch (err) {
@@ -83,7 +83,15 @@ export default function Login() {
   return (
     <>
       <header id="header-login">
-        <img src={LogoSite} alt="logo du site" width="80" height="auto" />
+        <article>
+          <button
+            id="home-navigation"
+            type="button"
+            onClick={() => navigate("/")}
+          >
+            <img src={LogoSite} alt="logo du site" width="80" height="auto" />
+          </button>
+        </article>
         <h2>Connexion utilisateur</h2>
       </header>
       <main className="login-page">
@@ -123,10 +131,10 @@ export default function Login() {
           </article>
         </section>
         <ToastContainer
-          position="bottom-left"
           theme="colored"
-          autoClose={3000}
+          position="top-right"
           limit={1}
+          autoClose={4000}
         />
       </main>
     </>

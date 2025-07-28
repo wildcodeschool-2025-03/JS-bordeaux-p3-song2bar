@@ -47,6 +47,36 @@ class eventRepository {
 
     return rows.length > 0 ? rows[0] : null;
   }
+
+  async readAllEventsFiltered(search: Search) {
+    const [rows] = await databaseClient.query<Rows>(
+      `SELECT 
+    e.*, 
+    b.name AS bar_name
+    FROM event e
+    LEFT JOIN bar b ON e.bar_id = b.id
+    WHERE LOWER(e.title) LIKE LOWER(?) OR LOWER(b.name) LIKE LOWER(?)`,
+      [`%${search}%`, `%${search}%`],
+    );
+
+    return rows as EventList[];
+  }
+
+  async readAllEventsByBarId(id: number) {
+    const [rows] = await databaseClient.query<Rows>(
+      `SELECT 
+        e.*,
+        b.id AS bar_id,
+        b.name AS bar_name,
+        b.music_style AS music_style
+      FROM event e
+      LEFT JOIN bar b ON e.bar_id = b.id
+      WHERE e.bar_id = ?`,
+      [id],
+    );
+
+    return rows;
+  }
 }
 
 export default new eventRepository();

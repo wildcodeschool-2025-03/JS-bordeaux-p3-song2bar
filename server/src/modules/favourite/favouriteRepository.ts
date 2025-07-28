@@ -3,11 +3,20 @@ import databaseClient from "../../../database/client";
 import type { Result, Rows } from "../../../database/client";
 import type { MusicGroup } from "../../types/musicGroup";
 
-class FavouriteRepository {
-  async favouriteBar(favourite: Partial<FavouriteBar>) {
+class favouriteRepository {
+  async findBarFavourited(userId: number, barId: number) {
+    const [rows] = await databaseClient.query<Rows>(
+      "SELECT * FROM favourite_bar WHERE user_id = ? AND bar_id = ?",
+      [userId, barId],
+    );
+
+    return rows.length > 0 ? rows[0] : null;
+  }
+
+  async favouriteBar(userId: number, barId: number) {
     const [result] = await databaseClient.query<Result>(
       "INSERT INTO favourite_bar (user_id, bar_id) VALUES (?, ?)",
-      [favourite.userId, favourite.barId],
+      [userId, barId],
     );
 
     return result.affectedRows;
@@ -22,10 +31,19 @@ class FavouriteRepository {
     return result.affectedRows;
   }
 
-  async favouriteEvent(favourite: Partial<FavouriteEvent>) {
+  async findEventFavourited(userId: number, eventId: number) {
+    const [rows] = await databaseClient.query<Rows>(
+      "SELECT * FROM favourite_event WHERE user_id = ? AND event_id = ?",
+      [userId, eventId],
+    );
+
+    return rows.length > 0 ? rows[0] : null;
+  }
+
+  async favouriteEvent(userId: number, eventId: number) {
     const [result] = await databaseClient.query<Result>(
       "INSERT INTO favourite_event (user_id, event_id) VALUES (?, ?)",
-      [favourite.userId, favourite.eventId],
+      [userId, eventId],
     );
 
     return result.affectedRows;
@@ -39,6 +57,16 @@ class FavouriteRepository {
 
     return result.affectedRows;
   }
+
+  async findMusicGroupFavourited(userId: number, musicGroupId: number) {
+    const [rows] = await databaseClient.query<Rows>(
+      "SELECT * FROM favourite_music_group WHERE user_id = ? AND music_group_id = ?",
+      [userId, musicGroupId],
+    );
+
+    return rows.length > 0 ? rows[0] : null;
+  }
+
   async favouriteMusicGroup(userId: number, musicGroupId: number) {
     const [result] = await databaseClient.query<Result>(
       "INSERT INTO favourite_music_group (user_id, music_group_id) VALUES (?, ?)",
@@ -88,23 +116,6 @@ class FavouriteRepository {
     return rows as any[];
   }
 
-  async favouriteGroup(userId: number, groupId: number) {
-    const [result] = await databaseClient.query<Result>(
-      "INSERT INTO favourite_music_group (user_id, music_group_id) VALUES (?, ?)",
-      [userId, groupId],
-    );
-
-    return result.affectedRows;
-  }
-
-  async unfavouriteGroup(userId: number, groupId: number) {
-    const [result] = await databaseClient.query<Result>(
-      "DELETE FROM favourite_music_group WHERE user_id = ? AND music_group_id = ?",
-      [userId, groupId],
-    );
-
-    return result.affectedRows;
-  }
   async favouriteCount(event_id: number): Promise<number> {
     const [rows] = await databaseClient.query<RowDataPacket[]>(
       "SELECT COUNT(*) AS count FROM participate WHERE event_id = ?",
@@ -115,4 +126,4 @@ class FavouriteRepository {
   }
 }
 
-export default new FavouriteRepository();
+export default new favouriteRepository();

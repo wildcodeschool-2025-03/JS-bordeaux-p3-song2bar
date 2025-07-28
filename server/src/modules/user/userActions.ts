@@ -62,7 +62,6 @@ const read: RequestHandler = async (req, res, next) => {
       return;
     }
 
-    // Return user info without sensitive data
     const { id, firstname, lastname } = user;
     res.json({ id, firstname, lastname });
   } catch (err) {

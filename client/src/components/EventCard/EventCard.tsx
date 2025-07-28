@@ -4,7 +4,7 @@ import type { EventType } from "../../types/Event";
 
 type EventCardProps = {
   event: EventType;
-  participantsCount: number;
+  participantsCount?: number;
 };
 
 function EventCard({ event, participantsCount }: EventCardProps) {
@@ -31,9 +31,8 @@ function EventCard({ event, participantsCount }: EventCardProps) {
         />
       </aside>
       <aside className="card-content">
-        <h2 className="event-title">{event.title}</h2>
-
-        <p className="event-style">{event.music_style}</p>
+        <h2 className="card-title">{event.title}</h2>
+        <p className="card-style">{event.music_style}</p>
       </aside>
       <p className="participant-nb">👥 {participantsCount}</p>
 

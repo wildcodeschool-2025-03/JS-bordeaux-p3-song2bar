@@ -4,7 +4,6 @@ import { useState } from "react";
 import "./HorizontalCalendar.css";
 import { FaRegCalendarAlt } from "react-icons/fa";
 
-
 type HorizontalCalendarProps = {
   selectedDate: Date | null;
   onSelectDate: (date: Date) => void;

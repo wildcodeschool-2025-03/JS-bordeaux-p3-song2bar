@@ -19,6 +19,15 @@ class participateRepository {
 
     return result.affectedRows;
   }
+
+  async findParticipation(userId: number, eventId: number) {
+    const [rows] = await databaseClient.query<Rows>(
+      "SELECT * FROM participate WHERE user_id = ? AND event_id = ?",
+      [userId, eventId],
+    );
+
+    return rows.length > 0 ? rows[0] : null;
+  }
 }
 
 export default new participateRepository();

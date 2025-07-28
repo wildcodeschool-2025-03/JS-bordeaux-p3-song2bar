@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./LikeButton.css";
+import { useAuth } from "../../contexts/AuthContext";
+import { useParams } from "react-router";
 
 type LikeButtonProps = {
   favouriteBar?: () => Promise<void>;
@@ -19,6 +21,45 @@ function LikeButton({
   unfavouriteMusicGroup,
 }: LikeButtonProps) {
   const [isFavourite, setIsFavourite] = useState(false);
+  const { auth } = useAuth();
+  const { id } = useParams();
+  const userId = auth?.user.id;
+
+  function getTypeOfFavourite() {
+    if (favouriteBar && unfavouriteBar) return "bar";
+    if (favouriteEvent && unfavouriteEvent) return "event";
+    if (favouriteMusicGroup && unfavouriteMusicGroup) return "music_group";
+    return null;
+  }
+
+  const typeOfFavourite = getTypeOfFavourite();
+
+  useEffect(() => {
+    const checkFavourite = async () => {
+      if (!auth || !userId || !id || !typeOfFavourite) return;
+
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/favourite_${typeOfFavourite}/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${auth.token}`,
+            },
+          },
+        );
+        if (response.ok) {
+          const result = await response.json();
+          setIsFavourite(result.favourite);
+        } else {
+          console.error("Erreur lors de la récupération des favoris");
+        }
+      } catch (error) {
+        console.error("Erreur réseau :", error);
+      }
+    };
+
+    checkFavourite();
+  }, [userId, auth, id, typeOfFavourite]);
 
   const handleToggle = () => {
     if (favouriteBar && unfavouriteBar) {

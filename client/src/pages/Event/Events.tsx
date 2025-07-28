@@ -34,9 +34,6 @@ function Events() {
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-  const clearDateFilter = () => {
-    setDate(null);
-  };
 
   useEffect(() => {
     async function fetchEvent() {
@@ -109,6 +106,11 @@ function Events() {
     doResetPage();
   }, [search, selectedStyles, date]);
 
+  const clearDateFilter = () => {
+    setDate(null);
+    setShowCalendar(false);
+  };
+
   if (error) return <h1>Désolé il n'y a pas d'évènements </h1>;
 
   const musicStyles = Array.from(
@@ -153,99 +155,108 @@ function Events() {
           className="calendar-icon-button"
         />
       </section>
+      <section className="event-left-bar">
+        <article className="left-bar">
+          <div className="menu-button">
+            <h1>Filtre par style</h1>
+          </div>
 
-      <div className="menu-button">
-        <p>Filtre l'agenda</p>
-      </div>
+          <div className="filters-checkbox">
+            {musicStyles.map((style) => (
+              <label key={style}>
+                <div className="marge-filters-checkbox">
+                  <input
+                    type="checkbox"
+                    value={style}
+                    checked={selectedStyles.includes(style)}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (selectedStyles.includes(value)) {
+                        setSelectedStyles(
+                          selectedStyles.filter((s) => s !== value),
+                        );
+                      } else {
+                        setSelectedStyles([...selectedStyles, value]);
+                      }
+                    }}
+                  />
+                </div>
+                <span>{style}</span>
+              </label>
+            ))}
+          </div>
 
-      <section className="filters-checkbox">
-        {musicStyles.map((style) => (
-          <label key={style}>
-            <input
-              type="checkbox"
-              value={style}
-              checked={selectedStyles.includes(style)}
-              onChange={(e) => {
-                const value = e.target.value;
-                if (selectedStyles.includes(value)) {
-                  setSelectedStyles(selectedStyles.filter((s) => s !== value));
-                } else {
-                  setSelectedStyles([...selectedStyles, value]);
-                }
+          <div className="menu-button">
+            <p>Filtre l'agenda</p>
+          </div>
+
+          <HorizontalCalendar
+            selectedDate={date}
+            onSelectDate={(newDate) => setDate(newDate)}
+            onToggleCalendar={() => setShowCalendar((prev) => !prev)}
+          />
+
+          {showCalendar && (
+            <DatePicker
+              selected={date}
+              onChange={(newDate) => {
+                setDate(newDate);
+                setShowCalendar(false);
               }}
+              inline
+              calendarStartDay={1}
+              locale="fr"
             />
-            <span>{style}</span>
-          </label>
-        ))}
+          )}
+          {date && (
+            <button
+              type="button"
+              className="reset-date-button"
+              onClick={clearDateFilter}
+            >
+              Réinitialiser la date
+            </button>
+          )}
+        </article>
+        {filteredAndSearchedEvents.length === 0 ? (
+          <p>Aucun événement trouvé pour cette date</p>
+        ) : (
+          <>
+            <section className="event-list">
+              {paginatedEvents.map((event) => (
+                <EventCard
+                  key={event.id}
+                  event={event}
+                  participantsCount={participantsCount[event.id] ?? 0}
+                />
+              ))}
+            </section>
+          </>
+        )}
       </section>
-
-      <HorizontalCalendar
-        selectedDate={date}
-        onSelectDate={(newDate) => setDate(newDate)}
-        onToggleCalendar={() => setShowCalendar((prev) => !prev)}
-      />
-
-      {showCalendar && (
-        <DatePicker
-          selected={date}
-          onChange={(newDate) => {
-            setDate(newDate);
-            setShowCalendar(false);
-          }}
-          inline
-          calendarStartDay={1}
-          locale="fr"
-        />
-      )}
-      {date && (
+      <div className="pagination-controls">
         <button
           type="button"
-          className="reset-date-button"
-          onClick={clearDateFilter}
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
         >
-          Réinitialiser la date
+          ←
         </button>
-      )}
 
-      {filteredAndSearchedEvents.length === 0 ? (
-        <p>Aucun événement trouvé pour cette date</p>
-      ) : (
-        <>
-          <section className="event-list">
-            {paginatedEvents.map((event) => (
-              <EventCard
-                key={event.id}
-                event={event}
-                participantsCount={participantsCount[event.id] ?? 0}
-              />
-            ))}
-          </section>
+        <span>
+          {currentPage} ... {totalPages}
+        </span>
 
-          <div className="pagination-controls">
-            <button
-              type="button"
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-            >
-              ←
-            </button>
-
-            <span>
-              {currentPage} ... {totalPages}
-            </span>
-
-            <button
-              type="button"
-              onClick={() =>
-                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-              }
-              disabled={currentPage === totalPages}
-            >
-              →
-            </button>
-          </div>
-        </>
-      )}
+        <button
+          type="button"
+          onClick={() =>
+            setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+          }
+          disabled={currentPage === totalPages}
+        >
+          →
+        </button>
+      </div>
     </>
   );
 }

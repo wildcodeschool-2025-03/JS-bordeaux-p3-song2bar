@@ -12,9 +12,8 @@
   background: none;
   border: none;
   font-weight: bold;
-  font-size: larger;
   cursor: pointer;
-  padding: 1.5rem;
+  padding: 1.2rem;
   border-radius: 6px;
   text-align: center;
   min-width: 50px;
@@ -31,13 +30,12 @@
 }
 
 .calendar-container {
-  max-width: 60vw;
-  height: 6rem;
   display: flex;
   gap: 20px;
   border-radius: 10px;
   margin: auto;
   margin-top: 3rem;
+  margin-bottom: 3rem;
   padding: 1rem;
   background-color: white;
   justify-content: space-around;
@@ -65,30 +63,8 @@
   border: none;
   background: none;
 }
-
 @media screen and (max-width: 1024px) {
   .calendar-container {
-    max-width: 70vw;
-    height: 12rem;
-    display: flex;
-    align-items: center;
     flex-direction: column;
-    gap: 20px;
-    border-radius: 10px;
-    margin: auto;
-    margin-top: 3rem;
-    padding: 1rem;
-    background-color: white;
-  }
-  .calendar-icon-button {
-    display: flex;
-    align-items: center;
-    border-radius: 5px;
-    justify-content: space-evenly;
-    flex-direction: row-reverse;
-    width: 19rem;
-    background-color: black;
-    color: white;
-    margin-left: 0px;
   }
 }

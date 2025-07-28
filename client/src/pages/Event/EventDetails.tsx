@@ -4,8 +4,8 @@ import { Link, useNavigate, useParams } from "react-router";
 import Participate from "../../components/Participate/Participate";
 import "../../assets/_variables.css";
 import "leaflet/dist/leaflet.css";
-import { toast } from "react-toastify";
-import FavouriteButton from "../../components/FavouriteButton/FavouriteButton";
+import { toast, ToastContainer } from "react-toastify";
+import LikeButton from "../../components/LikeButton/LikeButton";
 import { useAuth } from "../../contexts/AuthContext";
 import type { EventType } from "../../types/Event";
 import "./EventDetails.css";
@@ -93,7 +93,7 @@ function EventDetails() {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/favourite_event/${userId}/${eventId}`,
+        `${import.meta.env.VITE_API_URL}/api/favourite_event/${eventId}`,
         {
           method: "DELETE",
           headers: {
@@ -103,7 +103,9 @@ function EventDetails() {
         },
       );
       if (response.ok) {
-        toast("Cet évènement a été retiré de vos favoris", { type: "info" });
+        toast("Cet évènement a été retiré de vos favoris", {
+          type: "success",
+        });
       } else {
         throw new Error("Erreur serveur");
       }
@@ -114,6 +116,7 @@ function EventDetails() {
       });
     }
   };
+
   const formatTime = (time: string) => {
     if (!time) return "";
     const [hour, minute] = time.split(":");
@@ -121,66 +124,70 @@ function EventDetails() {
   };
 
   return (
-    <div className="event-details">
-      <div className="return-button-container">
-        <button
-          type="button"
-          className="return-button"
-          onClick={() => navigate(-1)}
-        >
-          ← Retour
-        </button>
-      </div>
+    <>
+      <section>
+        <article className="return-button-container">
+          <button
+            type="button"
+            className="return-button"
+            onClick={() => navigate(-1)}
+          >
+            ← Retour
+          </button>
+        </article>
 
-      <div className="event-name-banner">
-        <h1 className="event-name">{event.title}</h1>
-        <div className="favorite-button">
-          <FavouriteButton
-            favouriteEvent={favouriteEvent}
-            unfavouriteEvent={unfavouriteEvent}
-          />
-        </div>
-      </div>
+        <article className="button-title-container">
+          <h1 className="button-title">
+            {event.title}{" "}
+            <LikeButton
+              favouriteEvent={favouriteEvent}
+              unfavouriteEvent={unfavouriteEvent}
+            />
+          </h1>
+        </article>
+      </section>
 
-      <section className="event-info">
-        <div className="event-picture">
+      <section className="event-container">
+        <article className="event-picture">
           <img src={event.image} alt={event.bar_name} />
-        </div>
-        <div className="description-content">
+        </article>
+        <article className="event-infos">
+          <div className="event-meta">
+            <div className="bar-title">
+              <Link to={`/bars/${event.bar_id}`} className="bar-title bold">
+                🍺 {event.bar_name}
+              </Link>
+            </div>
+            <div className="location">
+              📍 {event.address}, {event.postcode} {event.city}
+            </div>
+            <div className="music-style">🎵 {event.music_style}</div>
+            <div className="groups-name">
+              <Link to={`/groups/${event.music_group_id}`}>
+                🎤 {event.music_group_name}
+              </Link>
+            </div>
+            <div className="hour-event">
+              🕐 {formatTime(event.start_at)} à {formatTime(event.end_at)}
+            </div>
+            <div className="participate-number">
+              <p>
+                👥​ ​{" "}
+                {participantsCount === 0
+                  ? "Aucun participant à cet évènement"
+                  : `${participantsCount} personne${participantsCount > 1 ? "s" : ""} participe${participantsCount > 1 ? "nt" : ""} à cet évènement`}
+              </p>
+            </div>
+          </div>
+          <div className="participate-wrapper">
+            <Participate />
+          </div>
+        </article>
+        <article className="description-content">
           <p>{event.description}</p>
-        </div>
-        <div className="event-meta">
-          <div className="bar-title">
-            <Link to={`/bars/${event.bar_id}`} className="bar-title bold">
-              🍺 {event.bar_name}
-            </Link>
-          </div>
-          <div className="location">
-            📍 {event.address}, {event.postcode} {event.city}
-          </div>
-          <div className="music-style">🎵 {event.music_style}</div>
-          <div className="groups-name">
-            <Link to={`/groups/${event.music_group_id}`}>
-              🎤 {event.music_group_name}
-            </Link>
-          </div>
-          <div className="hour-event">
-            🕐 {formatTime(event.start_at)} à {formatTime(event.end_at)}
-          </div>
-          <div className="participate-number">
-            <p>
-              👥​ ​{" "}
-              {participantsCount === 0
-                ? "Aucun participant à cet évènement"
-                : `${participantsCount} personne${participantsCount > 1 ? "s" : ""} participe${participantsCount > 1 ? "nt" : ""} à cet évènement`}
-            </p>
-          </div>
-        </div>
-        <div className="participate-wrapper">
-          <Participate />
-        </div>
+        </article>
 
-        <div className="googlemap">
+        <article className="googlemap">
           <MapContainer
             center={[event.latitude, event.longitude]}
             zoom={16}
@@ -198,9 +205,15 @@ function EventDetails() {
               </Popup>
             </Marker>
           </MapContainer>
-        </div>
+        </article>
       </section>
-    </div>
+      <ToastContainer
+        theme="colored"
+        position="top-right"
+        limit={2}
+        autoClose={3000}
+      />
+    </>
   );
 }
 

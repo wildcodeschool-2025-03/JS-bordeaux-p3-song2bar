@@ -1,6 +1,32 @@
-body {
-  background-color: var(--background-primary-color);
+.events {
+  display: flex;
+  justify-content: flex-start;
 }
+
+.filters {
+  white-space: nowrap;
+}
+
+.event-list {
+  width: 66%;
+  background-color: #ebd2a4;
+  border-radius: 20px;
+  margin-left: 50px;
+  margin-bottom: 100px;
+  padding: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: 40px;
+}
+
+.filters-searchbar {
+  display: flex;
+  justify-content: center;
+  flex-direction: column-reverse;
+  position: relative;
+}
+
 .search-bar {
   border: none;
   border-radius: 35px;
@@ -29,7 +55,6 @@ body {
   font-size: 1.5rem;
   padding-top: 9px;
   margin-bottom: 5px;
-  margin-top: 4rem;
 }
 
 .filters-checkbox {
@@ -55,7 +80,8 @@ body {
 
 .up-datepicker {
   position: absolute;
-  right: 23.5vw;
+  right: 15%;
+  top: 50%;
   z-index: 10;
 }
 
@@ -104,7 +130,3 @@ body {
     align-items: center;
   }
 }
-
-
-
-

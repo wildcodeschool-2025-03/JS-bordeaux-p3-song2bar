@@ -1,11 +1,5 @@
-body {
-  background-color: var(--background-primary-color);
-  color: white;
-}
-
-.group-information,
-.bar-caroussel {
-  padding: 5rem;
+.group-information {
+  padding: 2rem 3rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -26,8 +20,7 @@ body {
   align-items: center;
   width: 100%;
   gap: 10px;
-  padding-bottom: 30px;
-  padding-top: 100px;
+  padding-bottom: 1.5rem;
 }
 
 .icon-favourite {
@@ -44,17 +37,69 @@ body {
 .group-articles {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  align-content: center;
-  gap: 60px;
+  gap: 6rem;
   padding: 0.6rem;
+  align-items: stretch;
 }
 
-.group-articles p {
-  text-align: center;
+.poster-group {
+  grid-column: 1/2;
+  border-radius: 20px;
+  width: 100%;
+  height: auto;
+}
+
+.description-content-group {
+  grid-column: 2/3;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  background: rgba(42, 42, 42, 0.8);
+  padding-right: 2rem;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow-y: auto;
+  padding-right: 1rem;
+  height: auto;
+}
+
+.description-content-group p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+
+.description-content-group::-webkit-scrollbar {
+  width: 8px;
+}
+
+.description-content-group::-webkit-scrollbar-thumb {
+  background-color: #cd853f;
+  border-radius: 10px;
+}
+
+.description-content-group::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .description {
-  font-size: 1rem;
+  font-size: 0.7rem;
+  text-align: left;
+}
+
+.carousel-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 8rem;
+}
+
+.carousel-section h2 {
+  text-align: center;
+}
+
+.carousel {
+  padding-top: 20px;
 }
 
 .fail {

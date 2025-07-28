@@ -2,6 +2,22 @@ import databaseClient from "../../../database/client";
 import type { Rows } from "../../../database/client";
 
 class BarRepository {
+  async readAllBarsByMusicGroupId(id: number) {
+    const [rows] = await databaseClient.query<Rows>(
+      `SELECT 
+        b.id AS id,
+        b.name AS name,
+        b.address AS address,
+        b.image1 AS image1
+      FROM event e
+      JOIN bar b ON e.bar_id = b.id
+      WHERE e.music_group_id = ?`,
+      [id],
+    );
+
+    return rows;
+  }
+
   async find(id: number) {
     const [barRows] = await databaseClient.query<Rows>(
       "SELECT * FROM bar WHERE id = ?",

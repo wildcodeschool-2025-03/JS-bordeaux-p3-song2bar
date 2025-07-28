@@ -4,11 +4,33 @@ import eventRepository from "./eventRepository";
 
 const browse: RequestHandler = async (req, res, next) => {
   try {
-    const events = await eventRepository.readAll();
+    const search = req.query.search as string;
+
+    const events = search
+      ? await eventRepository.readAllEventsFiltered(search)
+      : await eventRepository.readAll();
 
     res.json(events);
   } catch (err) {
     console.error("Erreur lors de la récupération des événements :", err);
+  }
+};
+
+const browseEventsByBarId: RequestHandler = async (req, res, next) => {
+  try {
+    const events = await eventRepository.readAllEventsByBarId(
+      Number(req.params.id),
+    );
+
+    if (!events || events.length === 0) {
+      res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ error: "No events found for this bar" });
+    } else {
+      res.status(StatusCodes.OK).json(events);
+    }
+  } catch (err) {
+    next(err);
   }
 };
 
@@ -27,4 +49,4 @@ const read: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { browse, read };
+export default { browse, browseEventsByBarId, read };

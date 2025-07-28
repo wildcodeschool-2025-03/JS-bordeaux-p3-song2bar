@@ -1,35 +1,19 @@
-body {
-  width: 100%;
-  max-width: 100vw;
-  box-sizing: border-box;
-  overflow-x: hidden;
-  background-color: #23241f;
+#home-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
 .guide {
   display: flex;
   flex-direction: column;
 }
 .flower-guitar {
-  width: 100%;
+  width: 90%;
   height: auto;
   display: block;
 }
 
-main .when-button {
-  border-radius: 45px;
-  background-color: #aa682e;
-  font-size: 3rem;
-  display: block;
-  margin: auto;
-  width: 28rem;
-  height: 6rem;
-}
-
-.calendar-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 .user-action {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
