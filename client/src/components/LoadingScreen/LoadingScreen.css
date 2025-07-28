@@ -14,10 +14,10 @@
 .container {
   width: 175px;
   height: 175px;
-  background-color: #ABC4AA;
+  background-color: #abc4aa;
   border-radius: 10px;
   position: relative;
-  box-shadow: 5px 5px 0 0 #675D50;
+  box-shadow: 5px 5px 0 0 #675d50;
 }
 
 .plate {
@@ -43,7 +43,7 @@
 .plate .black {
   width: 150px;
   height: 150px;
-  background-color: #675D50;
+  background-color: #675d50;
   animation: rotation 2s infinite linear;
 }
 
@@ -60,22 +60,22 @@
 .plate .white {
   width: 70px;
   height: 70px;
-  background-color: #F3DEBA;
+  background-color: #f3deba;
 }
 
 .plate .center {
   width: 20px;
   height: 20px;
-  background-color: #675D50;
+  background-color: #675d50;
 }
 
 .plate .border {
   width: 111px;
   height: 111px;
-  border-top: 3px solid #F3DEBA;
-  border-bottom: 3px solid #F3DEBA;
-  border-left: 3px solid #675D50;
-  border-right: 3px solid #675D50;
+  border-top: 3px solid #f3deba;
+  border-bottom: 3px solid #f3deba;
+  border-left: 3px solid #675d50;
+  border-right: 3px solid #675d50;
 }
 
 .player {
@@ -95,7 +95,7 @@
 .player .circ {
   width: 25px;
   height: 25px;
-  background-color: #F3DEBA;
+  background-color: #f3deba;
   border-radius: 100%;
   z-index: 1;
 }
@@ -103,7 +103,7 @@
 .player .rect {
   width: 10px;
   height: 55px;
-  background-color: #F3DEBA;
+  background-color: #f3deba;
   position: absolute;
   bottom: 0;
   margin-bottom: 5px;

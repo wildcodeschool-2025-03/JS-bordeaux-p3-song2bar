@@ -20,7 +20,10 @@ router.get("/api/bars/:id/events", eventActions.browseEventsByBarId);
 
 router.get("/api/users/:id", userActions.read);
 router.get("/api/users/favourite_groups", favouriteActions.getFavouriteGroups);
-router.get("/api/:eventId/participants/count", favouriteActions.displayParticipation);
+router.get(
+  "/api/:eventId/participants/count",
+  favouriteActions.displayParticipation,
+);
 
 router.get("/api/users/favourite_events", favouriteActions.getFavouriteEvents);
 

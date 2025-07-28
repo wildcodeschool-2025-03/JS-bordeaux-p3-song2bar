@@ -172,8 +172,8 @@ function EventsFavouritedByUser() {
         </div>
       ) : (
         <p>
-          Vous n'avez pas encore d'événements favoris. Explorez nos
-          événements et ajoutez-les à vos favoris !
+          Vous n'avez pas encore d'événements favoris. Explorez nos événements
+          et ajoutez-les à vos favoris !
         </p>
       )}
     </div>

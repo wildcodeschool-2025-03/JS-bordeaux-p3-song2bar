@@ -135,8 +135,8 @@ function MusicGroupsFavouritedByUser() {
         </div>
       ) : (
         <p>
-          Vous n'avez pas encore de groupes favoris. Explorez nos
-          événements pour découvrir de nouveaux groupes !
+          Vous n'avez pas encore de groupes favoris. Explorez nos événements
+          pour découvrir de nouveaux groupes !
         </p>
       )}
     </div>
